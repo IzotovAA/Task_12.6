@@ -46,6 +46,7 @@ $example_persons_array = [
     ],
 ];
 
+
 // принимает строку с ФИО, возвращает массив из разделённых ФИО
 function getPartsFromFullname($string)
 {
@@ -55,12 +56,14 @@ function getPartsFromFullname($string)
 }
 // ...
 
+
 // принимает 3 аргумента (ФИО), возвращает аргументы склеенные в строку через пробел
 function getFullnameFromParts($surname, $name, $patronomyc)
 {
     return $surname . ' ' . $name . ' ' . $patronomyc;
 }
 // ...
+
 
 // принимает строку ФИО, возвращает строку с именем и сокращённой фамилией
 function getShortName($string)
@@ -69,6 +72,7 @@ function getShortName($string)
     return $array['name'] . ' ' . mb_substr($array['surname'], 0, 1) . '.';
 }
 // ...
+
 
 // принимает строку ФИО, возвращает 1 (мужчина), -1 (женщина) или 0 (пол не определён)
 function getGenderFromName($string)
@@ -96,14 +100,6 @@ function getGenderFromName($string)
 }
 // ...
 
-// проверка корректности работы функции getGenderFromName
-echo "\n" . 'Проверка корректности работы функции getGenderFromName' . "\n";
-echo '----------------------------------------------------------' . "\n";
-foreach ($example_persons_array as $key => $value) {
-    echo $value['fullname'] . ': ' . getGenderFromName($value['fullname']) . "\n";
-}
-echo '----------------------------------------------------------' . "\n";
-// ...
 
 // принимает массив, формирует гендерный состав людей из массива (в процентах)
 function getGenderDescription($array)
@@ -134,24 +130,18 @@ function getGenderDescription($array)
     $female_percent = round($female_amount / $total_amount * 100);
     $undefined_percent = round($undefined_amount / $total_amount * 100);
     $output = <<<MYHEREDOCTEXT
-
-Гендерный состав аудитории:
----------------------------
-Мужчины - $male_percent%
-Женщины - $female_percent%
-Не удалось определить - $undefined_percent%
-
+<br/>
+Гендерный состав аудитории:<br/>
+---------------------------<br/>
+Мужчины - $male_percent%<br/>
+Женщины - $female_percent%<br/>
+Не удалось определить - $undefined_percent%<br/>
+<br/>
 MYHEREDOCTEXT;
     echo $output;
 }
 // ...
 
-// проверка корректности работы функции getGenderDescription
-echo "\n" . 'Проверка корректности работы функции getGenderDescription' . "\n";
-echo '----------------------------------------------------------' . "\n";
-getGenderDescription($example_persons_array);
-echo '----------------------------------------------------------' . "\n";
-// ...
 
 // принимает три аргумента (ФИО) и массив, ищет пару противоположного пола в массиве
 function getPerfectPartner($surname, $name, $patronomyc, $array)
@@ -162,7 +152,7 @@ function getPerfectPartner($surname, $name, $patronomyc, $array)
     $first_full_name = getFullnameFromParts($surname, $name, $patronomyc);
     $first_sex = getGenderFromName($first_full_name);
     if ($first_sex === 0) {
-        echo "\n" . 'Не возможно подобрать пару, пол не определён' . "\n";
+        echo "<br/>" . "\n" . 'Не возможно подобрать пару, пол не определён' . "\n" . "<br/>";
         return 'Пол не определён';
     } else {
         $second_full_name = $array[rand(0, count($array) - 1)]['fullname'];
@@ -172,9 +162,9 @@ function getPerfectPartner($surname, $name, $patronomyc, $array)
             $second_short_name = getShortName($second_full_name);
             $ideal_persent = round(random_float(50, 100), 2);
             $output = <<<MYHEREDOCTEXT
-
-$first_short_name + $second_short_name =
-\u{2661} Идеально на $ideal_persent% \u{2661}
+<br/>
+$first_short_name + $second_short_name =<br/>
+\u{2661} Идеально на $ideal_persent% \u{2661}<br/>
 
 MYHEREDOCTEXT;
             echo $output;
@@ -183,6 +173,7 @@ MYHEREDOCTEXT;
 }
 // ...
 
+
 // генерирует случайное число с плавающей точкой
 function random_float($min, $max)
 {
@@ -190,11 +181,58 @@ function random_float($min, $max)
 }
 // ...
 
+
+// для OSPanel
+// проверка корректности работы функции getGenderFromName
+echo 'Проверка корректности работы функции getGenderFromName' . "\n" . "<br/>";
+echo '----------------------------------------------------------' . "\n" . "<br/>";
+foreach ($example_persons_array as $key => $value) {
+    echo $value['fullname'] . ': ' . getGenderFromName($value['fullname']) . "\n" . "<br/>";
+}
+echo '----------------------------------------------------------' . "\n" . "<br/>";
+// ...
+
+// проверка корректности работы функции getGenderDescription
+echo "<br/>" . "\n" . 'Проверка корректности работы функции getGenderDescription' . "\n" . "<br/>";
+echo '----------------------------------------------------------' . "\n" . "<br/>";
+getGenderDescription($example_persons_array);
+echo '----------------------------------------------------------' . "\n" . "<br/>";
+// ...
+
 // проверка корректности работы функции getPerfectPartner
-echo "\n" . 'проверка корректности работы функции getPerfectPartner' . "\n";
-echo '----------------------------------------------------------' . "\n";
-getPerfectPartner('Ивановииии', 'Иванъъъъъ', 'Ивановичъъъъъ', $example_persons_array);
+echo "<br/>" . "\n" . 'проверка корректности работы функции getPerfectPartner' . "\n" . "<br/>";
+echo '----------------------------------------------------------' . "\n" . "<br/>";
+getPerfectPartner('аль-Хорезми', 'Мухаммад', 'ибн-Муса', $example_persons_array);
 getPerfectPartner('ивАНоВ', 'иВаН', 'иВанОВиЧ', $example_persons_array);
 getPerfectPartner('иВАноВа', 'еЛеНа', 'иванОВНа', $example_persons_array);
-echo '----------------------------------------------------------' . "\n";
+echo '----------------------------------------------------------';
 // ...
+// для OSPanel
+
+
+// для PHP песочницы
+// // проверка корректности работы функции getGenderFromName
+// echo "\n" . "\n" . 'Проверка корректности работы функции getGenderFromName' . "\n";
+// echo '----------------------------------------------------------' . "\n";
+// foreach ($example_persons_array as $key => $value) {
+//     echo $value['fullname'] . ': ' . getGenderFromName($value['fullname']) . "\n";
+// }
+// echo '----------------------------------------------------------' . "\n";
+// // ...
+
+// // проверка корректности работы функции getGenderDescription
+// echo "\n" . 'Проверка корректности работы функции getGenderDescription' . "\n";
+// echo '----------------------------------------------------------' . "\n";
+// getGenderDescription($example_persons_array);
+// echo '----------------------------------------------------------' . "\n";
+// // ...
+
+// // проверка корректности работы функции getPerfectPartner
+// echo "\n" . 'проверка корректности работы функции getPerfectPartner' . "\n";
+// echo '----------------------------------------------------------' . "\n";
+// getPerfectPartner('аль-Хорезми', 'Мухаммад', 'ибн-Муса', $example_persons_array);
+// getPerfectPartner('ивАНоВ', 'иВаН', 'иВанОВиЧ', $example_persons_array);
+// getPerfectPartner('иВАноВа', 'еЛеНа', 'иванОВНа', $example_persons_array);
+// echo '----------------------------------------------------------';
+// // ...
+// для PHP песочницы
